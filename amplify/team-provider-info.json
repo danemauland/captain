@@ -13,7 +13,20 @@
     },
     "categories": {
       "function": {
-        "formSubmissions": {}
+        "formSubmissions": {
+          "deploymentBucketName": "amplify-captain-dev-180955-deployment",
+          "s3Key": "amplify-builds/formSubmissions-527a503656612b4f3839-build.zip"
+        }
+      },
+      "auth": {
+        "captainAuth": {}
+      },
+      "storage": {
+        "FormSubmissions": {},
+        "s3captain": {}
+      },
+      "api": {
+        "formSubs": {}
       }
     }
   }

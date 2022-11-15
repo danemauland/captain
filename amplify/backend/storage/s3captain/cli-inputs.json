@@ -1,0 +1,18 @@
+{
+  "resourceName": "s3captain",
+  "policyUUID": "ef6e6bb1",
+  "bucketName": "captain71a02bc2b0fc458ba7df0ac960a0caae",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
