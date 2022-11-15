@@ -1,4 +1,4 @@
-import { API } from 'aws-amplify'
+import { API, Storage } from 'aws-amplify'
 import './App.css';
 import { useEffect, useState } from 'react';
 
@@ -26,7 +26,9 @@ function App() {
 
   const [useHomeAddress, setUseHomeAddress] = useState(false);
 
-  const [id, setId] = useState(null)
+  const [id, setId] = useState(null);
+
+  const [imageFiles, setImageFiles] = useState([]);
 
   useEffect(() => {
     const homeAddress = '123 Main St, Anytown, USA'
@@ -89,6 +91,19 @@ function App() {
     setSubmission({...defaultState})
   }
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const fileName = file.name + Date.now();
+    if (file) {
+      Storage.put(fileName, file)
+        .then (result => {
+          setImageFiles([...imageFiles, URL.createObjectURL(file)])
+          setSubmission({...submission, damagePhotos: [...submission.damagePhotos, result.key]})
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" name="insuranceCompany" onChange={ handleChange } value={submission.insuranceCompany} placeholder="Insurance Company*" />
@@ -123,8 +138,8 @@ function App() {
         Short Damage Description
         <textarea name="damageDescription" onChange={ handleChange } value={submission.damageDescription} placeholder="Description..."/>
       </label>
-      { submission.damagePhotos[0] ? <img src={submission.damagePhotos[0]} /> : <input type="file" name="damagePhotos1" /> }
-      { submission.damagePhotos[1] ? <img src={submission.damagePhotos[1]} /> : <input type="file" name="damagePhotos2" /> }
+      { imageFiles[0] ? <img src={imageFiles[0]} /> : <input type="file" name="damagePhotos1" onChange={handleImageUpload} /> }
+      { imageFiles[1] ? <img src={imageFiles[1]} /> : <input type="file" name="damagePhotos2" onChange={handleImageUpload} /> }
       <div>{errorMessage}</div>
       { id ? <button onClick={handleDelete}>Delete</button> : <></>}
       <button type="submit">{id ? "Edit" : "Submit" }</button>
