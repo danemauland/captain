@@ -198,3 +198,8 @@ button {
   cursor: pointer;
   margin-left: 12px;
 }
+
+#react-select-3-input {
+  opacity: 1 !important;
+  color: black;
+}
