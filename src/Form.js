@@ -110,22 +110,14 @@ function Form() {
   }
 
   const handleAddressChange = (val) => {
-    console.log('val')
-    console.log(val)
     const newVal = val?.label || val;
-    console.log(newVal)
     setSubmission({...submission, claimAddress: newVal})
     setAddressInput(newVal)
   }
 
   const handleAddressInputChange = (val) => {
-    console.log('input')
-    console.log(val)
     setAddressInput(val)
   }
-  console.log('rendering')
-  console.log(addressInput)
-  console.log(submission.claimAddress)
   return (
     <form onSubmit={handleSubmit} style={{padding: 24}}>
       <h1>Damage Information Form</h1>
