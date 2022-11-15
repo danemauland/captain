@@ -27,6 +27,9 @@
       },
       "api": {
         "formSubs": {}
+      },
+      "hosting": {
+        "S3AndCloudFront": {}
       }
     }
   }

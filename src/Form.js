@@ -21,26 +21,10 @@ const defaultState = {
 
 function Form() {
   const [submission, setSubmission] = useState({...defaultState});
-
   const [errorMessage, setErrorMesage] = useState('')
-
-  const [useHomeAddress, setUseHomeAddress] = useState(false);
-
   const [id, setId] = useState(null);
-
   const [imageFiles, setImageFiles] = useState([]);
-
-  const [addressInput, setAddressInput] = useState('');
-
-  // Updates the address when the "use hometown" checkbox is checked/unchecked
-  useEffect(() => {
-    const homeAddress = '123 Main St, Anytown, USA'
-    if (useHomeAddress && submission.claimAddress !== homeAddress) {
-      setSubmission({...submission, claimAddress: '123 Main St, Anytown, USA'})
-    } else if (!useHomeAddress && submission.claimAddress === homeAddress) {
-      setSubmission({...submission, claimAddress: ''})
-    }
-  }, [useHomeAddress, submission])
+  const [addressValue, setAddressValue] = useState(null);
 
   // Updates the submission state when a form field is changed
   const handleChange = (e) => {
@@ -91,7 +75,6 @@ function Form() {
 
   const hardReset = () => {
     softReset()
-    setUseHomeAddress(false)
     setId(null)
     setSubmission({...defaultState})
   }
@@ -110,14 +93,11 @@ function Form() {
   }
 
   const handleAddressChange = (val) => {
+    setAddressValue(val)
     const newVal = val?.label || val;
     setSubmission({...submission, claimAddress: newVal})
-    setAddressInput(newVal)
   }
 
-  const handleAddressInputChange = (val) => {
-    setAddressInput(val)
-  }
   return (
     <form onSubmit={handleSubmit} style={{padding: 24}}>
       <h1>Damage Information Form</h1>
@@ -125,9 +105,9 @@ function Form() {
         <h3>Basic Info</h3>
         <input type="text" name="insuranceCompany" onChange={ handleChange } value={submission.insuranceCompany} placeholder="Insurance Company*" />
         <input type="text" name="claimNumber" onChange={ handleChange } value={submission.claimNumber} placeholder="Claim Number (optional)" />
-        <GooglePlacesAutocomplete apiKey='AIzaSyA1EKjNy7qKW_REwyuhV37ti5SAqtrz9Gs' selectProps={{inputValue: addressInput || submission.claimAddress, value: submission.claimAddress, onChange: handleAddressChange, onInputChange: handleAddressInputChange, placeholder: "Claim Address*"}} />
+        <GooglePlacesAutocomplete apiKey='AIzaSyA1EKjNy7qKW_REwyuhV37ti5SAqtrz9Gs' selectProps={{value: addressValue, onChange: handleAddressChange, placeholder: "Claim Address*"}} />
         <label>
-          <input type="checkbox" name="useHomeAddress" onChange={ (e) => setUseHomeAddress(e.target.checked) } checked={useHomeAddress} />
+          <input type="checkbox" name="useHomeAddress" />
           Use my Home Address
         </label>
       </div>
