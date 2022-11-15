@@ -1,6 +1,7 @@
 import { API, Storage } from 'aws-amplify'
 import './App.css';
 import { useEffect, useState } from 'react';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const apiName = "formSubs";
 const path = "/submissions";
@@ -104,11 +105,15 @@ function App() {
     }
   }
 
+  const handleAddressChange = (val) => {
+    setSubmission({...submission, claimAddress: val.value?.description || val.value})
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <input type="text" name="insuranceCompany" onChange={ handleChange } value={submission.insuranceCompany} placeholder="Insurance Company*" />
       <input type="text" name="claimNumber" onChange={ handleChange } value={submission.claimNumber} placeholder="Claim Number (optional)" />
-      <input type="text" name="claimAddress" onChange={ handleChange } value={submission.claimAddress} placeholder="Claim Address*" />
+      <GooglePlacesAutocomplete apiKey='AIzaSyA1EKjNy7qKW_REwyuhV37ti5SAqtrz9Gs' selectProps={{inputValue: submission.claimAddress, value: submission.claimAddress, onChange: handleAddressChange, onInputChange: handleAddressChange, placeholder: "Claim Address*"}} />
       <input type="checkbox" name="useHomeAddress" onChange={ (e) => setUseHomeAddress(e.target.checked) } checked={useHomeAddress} />
       <label>
         <input type="checkbox" name="hasExterionDamage" onChange={ handleChange } checked={submission.hasExterionDamage} />
